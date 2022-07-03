@@ -1,5 +1,6 @@
 import sys
 
+
 def dec_to_bin(n):
     n=int(n)
     z=""
@@ -14,10 +15,13 @@ def dec_to_bin(n):
         z=z+"0"*(8-len(z))
     return z[::-1]
 
+
 lc=0
 label_dict={}
 var_dict={}
 data=sys.stdin.read().strip().split("\n")
+if "" in data:
+    data.remove("")
 var_counter=0
 for i in data:
     if(i.split()[0]=="var"):
@@ -25,17 +29,54 @@ for i in data:
 mem_counter=len(data)-var_counter
 
 
+z=-1
+Flag_ileg=False
 flag=False
 var_counter=0
 for i in data:
+    z=z+1
     if(i.split()[0]=="var"):
-        var_dict[i.split()[1]]=mem_counter
-        mem_counter=mem_counter+1
+        if len(i.split())==2:
+            var_dict[i.split()[1]]=mem_counter
+            mem_counter=mem_counter+1
+        else:
+            Flag_ileg=True
+            print(f"Error @Line{z}: Incorrect declaration of variable")
+            break
+    
+
+Flag_Imm=False
+k=-1
+for i in data:
+    k=k+1
+    if i.split()[0]=="mov" and i.split()[2][0]=="$":
+        z=i.split()[2][1:]
+        if(int(z)>=256 or int(z)<0):
+            Flag_Imm=True
+            print(f"ERROR @Line{k}: Use of illegal immediate values")
+            break
+
+Flag_undefvar=False
+f=-1
+for i in data:
+    f=f+1
+    if i.split()[0]=="ld" or i.split()[0]=="st":
+        z=i.split()[2]
+        if z not in var_dict:
+            Flag_undefvar=True
+            print(f"ERROR @Line{f}: Use of undefined variable")
+            break
+
 
 dict={"R0":"000","R1":"001","R2":"010","R3":"011","R4":"100","R5":"101","R6":"110","FLAGS":"111"}
 flag=False
 for i in data:
-
+    if(Flag_Imm==True) or (Flag_undefvar==True) or(Flag_ileg==True):
+        break
+    if(data[len(data)-1]!="hlt"):
+        print(f"ERROR @Line{len(data)}: hlt not being used as the last instruction/Incorrect hlt declaration")
+        break
+    
     if i.split()[0]=="mov" and i.split()[2][0]=="$":
         y=dict[i.split()[1]]
         z=i.split()[2][1:]
@@ -128,6 +169,9 @@ for i in data:
         if i.split()[1]=="mov" and i.split()[3][0]=="$":
             y=dict[i.split()[2]]
             z=i.split()[3][1:]
+            if(int(z)>256 or int(z)<0):
+                print(f"ERROR @Line{lc}: Use of illegal immediate value")
+                break
             print("10010"+y+dec_to_bin(z))
 
         if i.split()[1]=="mov" and i.split()[3][0]!="$":
@@ -189,6 +233,3 @@ for i in data:
         elif i.split()[1]=="hlt":
             print("01010"+"00000000000")
             break
-
-
-
