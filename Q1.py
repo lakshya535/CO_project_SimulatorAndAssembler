@@ -1,5 +1,5 @@
 import sys
-
+#trying git add .--->git status
 def dec_to_bin(n):
     n=int(n)
     z=""
