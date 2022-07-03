@@ -39,6 +39,7 @@ with open("project.txt","r") as f:
     data=f.read().split("\n")
     flag=False
     for i in data:
+
         if i.split()[0]=="mov" and i.split()[2][0]=="$":
             y=dict[i.split()[1]]
             z=i.split()[2][1:]
@@ -103,10 +104,6 @@ with open("project.txt","r") as f:
             lc=lc+1
             print("10101"+dict[i.split()[1]]+dec_to_bin(str(var_dict[i.split()[2]])))
 
-        elif i.split()[0][-1]==":":
-            label_dict[i.split()[0][:-1]]=lc
-            lc=lc+1
-
         elif i.split()[0]=="jmp":
             lc=lc+1
             print("11111"+"000"+str(dec_to_bin(label_dict[i.split()[1]])))
@@ -128,24 +125,77 @@ with open("project.txt","r") as f:
             print("01010"+"00000000000")
             break
 
+        elif i.split()[0][-1]==":":
+            label_dict[i.split()[0][:-1]]=lc
+            lc=lc+1
+ 
+            if i.split()[1]=="mov" and i.split()[3][0]=="$":
+                y=dict[i.split()[2]]
+                z=i.split()[3][1:]
+                print("10010"+y+dec_to_bin(z))
+
+            if i.split()[1]=="mov" and i.split()[3][0]!="$":
+                print("10011"+"00000"+dict[i.split()[2]]+dict[i.split()[3]])
+
+            elif i.split()[1]=="add":
+                print("10000"+"00"+dict[i.split()[2]]+dict[i.split()[3]]+dict[i.split()[4]])
+
+            elif i.split()[1]=="sub":
+                print("10001"+"00"+dict[i.split()[2]]+dict[i.split()[3]]+dict[i.split()[4]])
+
+            elif i.split()[1]=="mul":
+                print("10110"+"00"+dict[i.split()[2]]+dict[i.split()[3]]+dict[i.split()[4]])
+
+            elif i.split()[1]=="div":
+                print("10111"+"00000"+dict[i.split()[2]]+dict[i.split()[3]])
+
+            elif i.split()[1]=="ls" and i.split()[3][0]=="$":
+                z=i.split()[3][1:]
+                print("11001"+dict[i.split()[2]]+dec_to_bin(z))
+
+            elif i.split()[1]=="rs" and i.split()[3][0]=="$":
+                z=i.split()[3][1:]
+                print("11000"+dict[i.split()[2]]+dec_to_bin(z))
+
+            elif i.split()[1]=="or":
+                print("11011"+"00"+dict[i.split()[2]]+dict[i.split()[3]]+dict[i.split()[4]])
+
+            elif i.split()[1]=="and":
+                print("11100"+"00"+dict[i.split()[2]]+dict[i.split()[3]]+dict[i.split()[4]])
+
+            elif i.split()[1]=="not":
+                print("11100"+"00000"+dict[i.split()[2]]+dict[i.split()[3]])
+
+            elif i.split()[1]=="cmp":
+                print("11110"+"00000"+dict[i.split()[2]]+dict[i.split()[3]])
+
+            elif i.split()[1]=="xor":
+                print("11010"+"00"+dict[i.split()[2]]+dict[i.split()[3]]+dict[i.split()[4]])
+
+            elif i.split()[1]=="ld":
+                print("10100"+dict[i.split()[2]]+dec_to_bin(str(var_dict[i.split()[3]])))
+
+            elif i.split()[1]=="st":
+                print("10101"+dict[i.split()[2]]+dec_to_bin(str(var_dict[i.split()[3]])))
+
+            elif i.split()[1]=="jmp":
+                print("11111"+"000"+str(dec_to_bin(label_dict[i.split()[2]])))
+
+            elif i.split()[1]=="jlt":
+                print("01100"+"000"+str(dec_to_bin(label_dict[i.split()[2]])))
+
+            elif i.split()[1]=="jgt":
+                print("01101"+"000"+str(dec_to_bin(label_dict[i.split()[2]])))
+
+            elif i.split()[1]=="je":
+                print("01111"+"000"+str(dec_to_bin(label_dict[i.split()[2]])))
+
+            elif i.split()[1]=="hlt":
+                print("01010"+"00000000000")
+                break
+
+
 print(lc)
 print(var_dict)
 print(label_dict)
-
-# data="Hello world hi world"
-# print(data.split("\t"))
-        
-
-        
-
-
-
-        
-           
-            
-            
-
-        
-
-
 
