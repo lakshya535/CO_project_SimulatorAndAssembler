@@ -45,6 +45,8 @@ for i in data:
             break
     
 
+
+
 Flag_Imm=False
 k=-1
 for i in data:
@@ -67,11 +69,32 @@ for i in data:
             print(f"ERROR @Line{f}: Use of undefined variable")
             break
 
+label2_dict={}
+Flag_undeflabel=False
+g=-1
+lm=0
+for i in data:
+    g=g+1
+    if i.split()[0][-1]==":":
+        label2_dict[i.split()[0][:-1]]=lm
+        lm=lm+1
+
+for i in data:
+    if i.split()[0]=="jmp" or i.split()[0]=="jlt" or i.split()[0]=="je" or i.split()[0]=="jgt":
+        z=i.split()[1]
+        if z not in label2_dict:
+            Flag_undeflabel=True
+            print(f"ERROR @Line{g}: Use of undefined label")
+            break
+
+
+    
+
 
 dict={"R0":"000","R1":"001","R2":"010","R3":"011","R4":"100","R5":"101","R6":"110","FLAGS":"111"}
 flag=False
 for i in data:
-    if(Flag_Imm==True) or (Flag_undefvar==True) or(Flag_ileg==True):
+    if(Flag_Imm==True) or (Flag_undefvar==True) or(Flag_ileg==True) or(Flag_undeflabel==True):
         break
     if(data[len(data)-1]!="hlt"):
         print(f"ERROR @Line{len(data)}: hlt not being used as the last instruction/Incorrect hlt declaration")
