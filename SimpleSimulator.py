@@ -118,6 +118,8 @@ while(c>0):
                 c=len(data)-b_to_d(i[8:16])
                 print(str(dec_to_bin_pc(len(data)-c))+" "+str(dict1["R0"])+" "+str(dict1["R1"])+" "+str(dict1["R2"])+" "+str(dict1["R3"])+" "+str(dict1["R4"])+" "+str(dict1["R5"])+" "+str(dict1["R6"])+" "+"0000000000000000")
                 c=c-1
+                dict1["FLAGS"]=dec_to_bin(0)
+
             else:
                 dict1["FLAGS"]=dec_to_bin(0)
                 print(str(dec_to_bin_pc(len(data)-c))+" "+str(dict1["R0"])+" "+str(dict1["R1"])+" "+str(dict1["R2"])+" "+str(dict1["R3"])+" "+str(dict1["R4"])+" "+str(dict1["R5"])+" "+str(dict1["R6"])+" "+str(dict1["FLAGS"]))
@@ -144,9 +146,11 @@ while(c>0):
                 c=c-1
 
         if i[0:5]=="11111":
-            c=len(data)-b_to_d(i[8:16])
-            print(str(dec_to_bin_pc(len(data)-c))+" "+str(dict1["R0"])+" "+str(dict1["R1"])+" "+str(dict1["R2"])+" "+str(dict1["R3"])+" "+str(dict1["R4"])+" "+str(dict1["R5"])+" "+str(dict1["R6"])+" "+"0000000000000000")
-            c=c-1
+            # print(str(dec_to_bin_pc(len(data)-c))+" "+str(dict1["R0"])+" "+str(dict1["R1"])+" "+str(dict1["R2"])+" "+str(dict1["R3"])+" "+str(dict1["R4"])+" "+str(dict1["R5"])+" "+str(dict1["R6"])+" "+"0000000000000000")
+            # c=len(data)-b_to_d(i[8:16])
+            # dict1["FLAGS"]=dec_to_bin(0)
+            pass
+            
 
         if i[0:5]=="11101":
             z=""
@@ -196,6 +200,7 @@ for i in data:
 
 for i in range(256-len(data)):
     print("0000000000000000")
+
 
 
 
