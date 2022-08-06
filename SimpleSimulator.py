@@ -202,6 +202,3 @@ for i in range(256-len(data)):
     print("0000000000000000")
 
 
-
-
-
